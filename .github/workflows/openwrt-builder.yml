@@ -81,6 +81,10 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
+        
+    - name: SSH connection to Actions
+      uses: mxschmitt/action-tmate@v3
+      if: github.event.inputs.ssh == 'true'
 
     - name: Download package
       id: package
