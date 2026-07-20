@@ -18,3 +18,9 @@
 
 # Modify hostname
 #sed -i 's/OpenWrt/P3TERX-Router/g' package/base-files/files/bin/config_generate
+# Force target: TL-WR845N v4 only, kill the awusfree1 fallback
+sed -i '/awusfree1/d' .config
+echo 'CONFIG_TARGET_ramips=y' >> .config
+echo 'CONFIG_TARGET_ramips_mt76x8=y' >> .config
+echo 'CONFIG_TARGET_ramips_mt76x8_DEVICE_tplink_tl-wr845n-v4=y' >> .config
+echo '# CONFIG_TARGET_MULTI_PROFILE is not set' >> .config
