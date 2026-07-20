@@ -19,14 +19,22 @@
 # Modify hostname
 #sed -i 's/OpenWrt/P3TERX-Router/g' package/base-files/files/bin/config_generate
 # Force target: TL-WR845N v4 only, kill the awusfree1 fallback
-sed -i '/awusfree1/d' .config
-echo 'CONFIG_TARGET_ramips=y' >> .config
-echo 'CONFIG_TARGET_ramips_mt76x8=y' >> .config
-echo 'CONFIG_TARGET_ramips_mt76x8_DEVICE_tplink_tl-wr845n-v4=y' >> .config
-echo '# CONFIG_TARGET_MULTI_PROFILE is not set' >> .config
-
+# --- Force TL-WR845N v4 (multi-profile / checkbox mode) ---
+sed -i '/^CONFIG_TARGET_ramips/d' .config
+sed -i '/^CONFIG_TARGET_DEVICE/d' .config
+sed -i '/^# CONFIG_TARGET_ramips/d' .config
+sed -i '/^# CONFIG_TARGET_DEVICE/d' .config
+sed -i '/^CONFIG_TARGET_MULTI_PROFILE/d' .config
+sed -i '/^# CONFIG_TARGET_MULTI_PROFILE/d' .config
+cat >> .config <<'EOF'
+CONFIG_TARGET_ramips=y
+CONFIG_TARGET_ramips_mt76x8=y
+CONFIG_TARGET_MULTI_PROFILE=y
+CONFIG_TARGET_PER_DEVICE_ROOTFS=y
+CONFIG_TARGET_DEVICE_ramips_mt76x8_DEVICE_tplink_tl-wr845n-v4=y
+EOF
 make defconfig
 echo "=================================================="
 echo "DEVICE SELECTED:"
-grep "DEVICE.*=y" .config
+grep -E "DEVICE.*=y" .config
 echo "=================================================="
