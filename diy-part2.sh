@@ -24,3 +24,9 @@ echo 'CONFIG_TARGET_ramips=y' >> .config
 echo 'CONFIG_TARGET_ramips_mt76x8=y' >> .config
 echo 'CONFIG_TARGET_ramips_mt76x8_DEVICE_tplink_tl-wr845n-v4=y' >> .config
 echo '# CONFIG_TARGET_MULTI_PROFILE is not set' >> .config
+
+make defconfig
+echo "=================================================="
+echo "DEVICE SELECTED:"
+grep "DEVICE.*=y" .config
+echo "=================================================="
